@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click the Button Game</title>
+    <style>
+        /* General reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .game-container {
+            text-align: center;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            font-size: 18px;
+            padding: 20px 40px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #005f73;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        #score, #time {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Click the Button Game</h1>
+        <p>Score: <span id="score">0</span></p>
+        <p>Time Remaining: <span id="time">30</span> seconds</p>
+        <button id="gameButton">Click Me!</button>
+    </div>
+
+    <script>
+        // Initialize the game variables
+        let score = 0;
+        let timeLeft = 30;
+        let timer;
+        let button = document.getElementById('gameButton');
+        let scoreDisplay = document.getElementById('score');
+        let timeDisplay = document.getElementById('time');
+
+        // Function to start the game
+        function startGame() {
+            // Start the countdown timer
+            timer = setInterval(() => {
+                timeLeft--;
+                timeDisplay.innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    alert(`Game Over! Your score is: ${score}`);
+                }
+            }, 1000);
+
+            // Move the button every second
+            setInterval(() => {
+                moveButton();
+            }, 1000);
+        }
+
+        // Function to move the button to a random position on the screen
+        function moveButton() {
+            // Get random positions for the button
+            let maxX = window.innerWidth - button.offsetWidth;
+            let maxY = window.innerHeight - button.offsetHeight;
+            
+            let randomX = Math.random() * maxX;
+            let randomY = Math.random() * maxY;
+            
+            button.style.position = 'absolute';
+            button.style.left = randomX + 'px';
+            button.style.top = randomY + 'px';
+        }
+
+        // Function to handle the button click
+        function onButtonClick() {
+            score++;
+            scoreDisplay.innerText = score;
+        }
+
+        // Add event listener for button click
+        button.addEventListener('click', onButtonClick);
+
+        // Start the game when the page loads
+        window.onload = startGame;
+    </script>
+</body>
+</html>
